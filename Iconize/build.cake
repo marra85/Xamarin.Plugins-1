@@ -1,5 +1,6 @@
-#addin nuget:?package=Cake.FileHelpers&version=1.0.3.2
-#addin nuget:?package=Cake.Xamarin&version=1.3.0.3
+#addin nuget:?package=Cake.FileHelpers&version=1.0.4
+#addin nuget:?package=Cake.Xamarin&version=1.3.0.15
+#tool nuget:?package=vswhere
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
@@ -12,6 +13,10 @@ var version = EnvironmentVariable("APPVEYOR_BUILD_VERSION") ?? Argument("version
 // PREPARATION
 //////////////////////////////////////////////////////////////////////
 
+var vsLatest = VSWhereLatest();
+var msBuildPath = (vsLatest==null)
+                            ? null
+                            : vsLatest.CombineWithFilePath("./MSBuild/15.0/Bin/MSBuild.exe");
 var solution = "./Iconize.sln";
 var nuspec = new List<FilePath> {
 	{ new FilePath("./NuGet/Xam.Plugin.Iconize.nuspec") },
@@ -43,8 +48,10 @@ Task("Build")
     if(IsRunningOnWindows())
     {
 		// Use MSBuild
-		MSBuild(solution, settings =>
-			settings.SetConfiguration(configuration));
+		MSBuild(solution, settings =>{
+			settings.SetConfiguration(configuration);
+			settings.ToolPath = msBuildPath; 	
+		});
     }
     else
     {

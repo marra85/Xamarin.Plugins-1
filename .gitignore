@@ -198,3 +198,12 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 /Iconize/NuGet/nuget.ps1
+
+#Visual Studio Project Backup
+*.csproj.bak
+
+#Build Tools
+[Tt]ools/
+
+#OSX
+*.DS_Store

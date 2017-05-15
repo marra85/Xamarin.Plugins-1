@@ -12,6 +12,16 @@ namespace FormsPlugin.Iconize
         /// <summary>
         /// Initializes a new instance of the <see cref="IconNavigationPage" /> class.
         /// </summary>
+        public IconNavigationPage() : base()
+        {
+            Popped += OnNavigation;
+            PoppedToRoot += OnNavigation;
+            Pushed += OnNavigation;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IconNavigationPage" /> class.
+        /// </summary>
         /// <param name="root">The root page.</param>
         public IconNavigationPage(Page root)
             : base(root)
@@ -19,6 +29,16 @@ namespace FormsPlugin.Iconize
             Popped += OnNavigation;
             PoppedToRoot += OnNavigation;
             Pushed += OnNavigation;
+        }
+
+        /// <summary>
+        /// Page Finalizer
+        /// </summary>
+        ~IconNavigationPage()
+        {
+            Popped -= OnNavigation;
+            PoppedToRoot -= OnNavigation;
+            Pushed -= OnNavigation;
         }
 
         /// <summary>
